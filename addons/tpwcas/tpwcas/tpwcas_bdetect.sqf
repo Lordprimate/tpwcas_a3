@@ -139,7 +139,7 @@ bdetect_fnc_eh_loop =
 	private [ "_x", "_msg"];
 	
 	// iteratively add EH to all units spawned at runtime
-	if ( tpwcas_mode == 3 ) then // (dedicated) server no clients - check only player detection
+	if ( tpwcas_mode isEqualTo 3 ) then // (dedicated) server no clients - check only player detection
 	{	
 		if( bdetect_debug_enable ) then {
 			_msg = format["'bdetect_fnc_eh_loop' starting EventHandler loop for playableUnits ..."];
@@ -215,9 +215,9 @@ bdetect_fnc_eh_add =
 	if ( !(isNull _vehicle) ) then
 	{
 		// Reset EH after player respawn
-		if ( (tpwcas_mode == 2)
+		if ( (tpwcas_mode isEqualTo 2)
 			&& { !(isNil {_vehicle getVariable "bdetect_fired_eh" }) }
-			&& { !((_vehicle getVariable ["bdetect_fired_eh_owner", 0]) == (owner _vehicle)) }
+			&& { !((_vehicle getVariable ["bdetect_fired_eh_owner", 0]) isEqualTo (owner _vehicle)) }
 			) then
 		{
 			if ( bdetect_debug_enable ) then {
@@ -246,7 +246,7 @@ bdetect_fnc_eh_add =
 				[ _msg, 3 ] call bdetect_fnc_debug;
 			};
 
-			if ( tpwcas_mode == 2 ) then {
+			if ( tpwcas_mode isEqualTo 2 ) then {
 				_vehicle setVariable ["bdetect_fired_eh_owner", owner _vehicle];
 			};
 		};
@@ -387,7 +387,7 @@ bdetect_fnc_find_other_ammo =
     {
 		_nr = _nr + 1;
         if (_projectile isKindOf _x) exitWith {_result = [true, _x, _nr]};
-	} count ["GrenadeHand", "GrenadeBase", "RocketBase", "MissileBase"];
+	} count ["GrenadeHand", "GrenadeBase", "RocketBase", "MissileBase", "ShellBase"];
     //} forEach ["GrenadeHandTimedWest", "GrenadeBase", "RocketBase", "ShellBase", "MissileBase", "BombCore"];
     _result
 };
@@ -408,12 +408,12 @@ bdetect_fnc_detect =
 		{
 			bdetect_frame_tstamp = _t;
 
-			if( bdetect_debug_enable && { (diag_frameno % 32 == 0) } ) then {
+			if( bdetect_debug_enable && { (diag_frameno % 32 isEqualTo 0) } ) then {
 				_msg = format["bdetect_fnc_detect() - Frame: duration=%1 (min=%2), FPS=%3", _dt , bdetect_frame_min_duration, diag_fps ];
 				[ _msg, 1 ] call bdetect_fnc_debug;
 			};
 
-			if( bdetect_fps_adaptation && { (diag_frameno % bdetect_fps_calc_each_x_frames == 0) } ) then {
+			if( bdetect_fps_adaptation && { (diag_frameno % bdetect_fps_calc_each_x_frames isEqualTo 0) } ) then {
 				call bdetect_fnc_diag_min_fps;
 			};
 
@@ -489,7 +489,7 @@ bdetect_fnc_detect_bullet_sub =
 				{
 					if( _x != _shooter ) then
 					{
-						if( !(_x in _blacklist) && { (local _x) } && { (vehicle _x == _x) }  && { ((lifeState _x == "HEALTHY") || (lifeState _x == "INJURED")) } ) then
+						if( !(_x in _blacklist) && { (local _x) } && { (vehicle _x isEqualTo _x) }  && { ((lifeState _x isEqualTo "HEALTHY") || (lifeState _x isEqualTo "INJURED")) } ) then
 						{
 							_blacklist set [ count _blacklist, _x];
 							_update_blacklist = true;
@@ -500,7 +500,7 @@ bdetect_fnc_detect_bullet_sub =
 							bdetect_callback_compiled = call compile format["%1", bdetect_callback];
 
 							/* MP - BEGIN */
-							if( bdetect_callback_mode == "spawn" ) then {
+							if( bdetect_callback_mode isEqualTo "spawn" ) then {
 									_nul = [ _x, _shooter, _bullet, _bpos, _pos, _time, 0 ] spawn bdetect_callback_compiled;
 							} else {
 									[ _x, _shooter, _bullet, _bpos, _pos, _time, 0 ] call bdetect_callback_compiled;
@@ -600,7 +600,7 @@ bdetect_fnc_detect_projectile_sub =
 
 						if( !(_x in _blacklist)  ) then {
 
-							if( (local _x) && { (vehicle _x == _x) } && { ((lifeState _x == "HEALTHY") || (lifeState _x == "INJURED")) } ) then 
+							if( (local _x) && { (vehicle _x isEqualTo _x) } && { ((lifeState _x isEqualTo "HEALTHY") || (lifeState _x isEqualTo "INJURED")) } ) then 
 							{
 								_blacklist set [ count _blacklist, _x];
 								_update_blacklist = true;
@@ -611,7 +611,7 @@ bdetect_fnc_detect_projectile_sub =
 								bdetect_callback_compiled = call compile format["%1", bdetect_callback];
 
 								/* MP - BEGIN */
-								if( bdetect_callback_mode == "spawn" ) then {
+								if( bdetect_callback_mode isEqualTo "spawn" ) then {
 										_nul = [ _x, _shooter, _projectile, _bpos, _pos, _time, 1 ] spawn bdetect_callback_compiled;
 								} else {
 										[ _x, _shooter, _projectile, _bpos, _pos, _time, 1 ] call bdetect_callback_compiled;

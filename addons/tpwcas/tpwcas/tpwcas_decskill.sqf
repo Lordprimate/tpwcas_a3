@@ -15,13 +15,13 @@ tpwcas_fnc_decskill =
 	_nearunits = _unit nearEntities ["CaManBase",50];
 	_cas = 0;
 	{
-		if ( (side _x == side _unit) && !(lifeState _x == "HEALTHY") ) then
+		if ( (side _x isEqualTo side _unit) && !(lifeState _x isEqualTo "HEALTHY") ) then
 		{
 			_cas = _cas + 1;
 		};
 	} count _nearunits;
 		
-	if (_cas == 0) then 
+	if (_cas isEqualTo 0) then 
 	{
 		_dec = 0.01; //1% decrease
 	}
@@ -49,7 +49,7 @@ tpwcas_fnc_decskill =
 	_unit setSkill ["aimingShake",_newshake];        
 	_unit setSkill ["courage",_newcourage]; 
 	
-	if (_unit getVariable ["tpwcas_skillreset", 0] == 0) then
+	if (_unit getVariable ["tpwcas_skillreset", 0] isEqualTo 0) then
 	{
 		_unit setVariable ["tpwcas_skillreset", 1];
 	};

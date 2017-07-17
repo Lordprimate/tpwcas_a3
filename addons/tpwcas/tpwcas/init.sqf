@@ -25,7 +25,7 @@ if ( (isServer) && !(isMultiPlayer) ) then
 	{
 		// check for forced disabled tpwcas for Single Player or (hosted or dedicated) Multi Player Server (tpwcas_mode 0)
 		_temp_tpwcas_mode = getNumber(configFile>> "tpwcas_key_setting"  >> "tpwcas_mode");
-		if ( _temp_tpwcas_mode == 0 ) exitWith 
+		if ( _temp_tpwcas_mode isEqualTo 0 ) exitWith 
 		{
 			tpwcas_mode = 0;
 			diag_log format ["%1 disabled tpwcas by userconfig file: tpwcas_mode = %2", time, tpwcas_mode];
@@ -56,7 +56,7 @@ if ( !(isServer) && {!(tpwcas_isHC)} && {isMultiPlayer} ) then
 		diag_log format ["%1 twpcas client mode set to tpwcas_mode: [%2]", time, tpwcas_mode];
 	};
 
-	if ( tpwcas_mode == 2 ) then // set by global pub var
+	if ( tpwcas_mode isEqualTo 2 ) then // set by global pub var
 	{
 		diag_log format ["%1 enabled tpwcas client mode: tpwcas_mode = %2", time, tpwcas_mode];
 	}
@@ -75,7 +75,7 @@ if ( ( ( isServer || tpwcas_isHC ) ) && ( isMultiPlayer ) ) then
 		tpwcas_mode = getNumber(configFile>> "tpwcas_key_setting"  >> "tpwcas_mode");	
 	};
 	
-	if !( (tpwcas_mode == 2) || (tpwcas_mode == 3) || (tpwcas_mode == 0) ) then 
+	if !( (tpwcas_mode isEqualTo 2) || (tpwcas_mode isEqualTo 3) || (tpwcas_mode isEqualTo 0) ) then 
 	{
 		diag_log format ["%1 forcing tpwcas to value [3]: determined tpwcas_mode value: [%2]", time, tpwcas_mode];
 		tpwcas_mode = 3; 
@@ -121,7 +121,7 @@ if ( isServer || tpwcas_isHC ) then
 	if (isNil "tpwcas_los_enable") then { tpwcas_los_enable = getNumber(configFile>> "tpwcas_key_setting"  >> "tpwcas_los_enable"); };
 };
 
-if ( !(tpwcas_mode == 0) ) then  
+if ( !(tpwcas_mode isEqualTo 0) ) then  
 {
 	nul = [] execVM "\tpwcas\tpwcas_init.sqf";
 };

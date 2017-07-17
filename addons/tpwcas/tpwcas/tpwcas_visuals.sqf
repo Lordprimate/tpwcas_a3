@@ -9,7 +9,7 @@ tpwcas_fnc_visuals =
 {
 	private ["_x","_blur","_tint","_ppmod","_ppmodifier"];
 	
-	if ( ( player getVariable ["tpwcas_supvis", 0] == 0 ) ) then    
+	if ( ( player getVariable ["tpwcas_supvis", 0] isEqualTo 0 ) ) then    
 	{  
 		player setVariable ["tpwcas_supvis",1];
 		
