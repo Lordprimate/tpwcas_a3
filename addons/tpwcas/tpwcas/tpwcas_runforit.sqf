@@ -5,7 +5,7 @@
 
 tpwcas_fnc_run_for_it =
 {
-	private ["_unit","_cover","_factorX","_factorY","_coverPosition","_coverDist","_coverTarget","_cPos","_vPos","_debug_flag","_dist","_shooter","_continue","_logOnce","_startTime","_checkTime","_stopped","_tooFar","_tooLong","_elapsedTime"];
+	private ["_unit","_cover","_factorX","_factorY","_coverPosition","_coverDist","_coverTarget","_cPos","_vPos","_debug_flag","_dist","_shooter","_continue","_logOnce","_startTime","_checkTime","_stopped","_tooFar","_tooLong","_elapsedTime","_whileloop"];
 	
 	_unit 	=	_this select 0;
 	
@@ -48,12 +48,13 @@ tpwcas_fnc_run_for_it =
 	//Visual Debug
 	if (tpwcas_debug > 0) then 
 	{		
-		_debug_flag = "Flag_FD_Red_F" createVehicle _coverPosition;
+		_debug_flag = "Land_TTowerSmall_2_F" createVehicle [0,0,0];
+		_debug_flag enableSimulation false;
 		_debug_flag setPosATL [_coverPosition select 0, _coverPosition select 1, getTerrainHeightASL _coverPosition];
 	};
 		
 	//doStop _unit;
-	sleep 0.1;
+	sleep 0.5;
 	_unit forceSpeed -1;
 	_unit moveTo _coverPosition;	
 	_coverDist = round ( _unit distance _coverPosition );
@@ -61,7 +62,8 @@ tpwcas_fnc_run_for_it =
 	_continue = true;
 	_logOnce = true;
 	_startTime = time;
-	_checkTime = (_startTime + (0.3 * _coverDist) + 10);
+	_checkTime = (_startTime + (0.3 * _coverDist) + 60);
+	_whileloop = 0;
 	
 	while { _continue } do 
 	{
@@ -76,7 +78,7 @@ tpwcas_fnc_run_for_it =
 		if ( !( unitReady _unit ) && {( _dist > 3 )} && {( alive _unit )}) then
 		{
 			//if unit takes too long to reach cover or moves too far out stop at current location
-			_tooFar = ( _dist > ( _coverDist + 20 ));
+			_tooFar = ( _dist > ( _coverDist + 50 ));
 			_tooLong = ( time > _checkTime );
 			_elapsedTime = ( time - _startTime );
 			
@@ -104,6 +106,11 @@ tpwcas_fnc_run_for_it =
 				};
 			};
 			sleep 1;
+			_whileloop = _whileloop + 1;
+			if (_whileloop in [20,40,60,80]) then
+			{
+				_unit doMove _coverPosition;
+			};
 		}
 		else
 		{	
@@ -130,7 +137,7 @@ tpwcas_fnc_run_for_it =
 	_unit setUnitPos "down"; 
 	
 	//doStop _unit;
-	sleep (random 25);
+	sleep 60 + (random 60);
 	
 	_unit setUnitPos "auto"; 
 	

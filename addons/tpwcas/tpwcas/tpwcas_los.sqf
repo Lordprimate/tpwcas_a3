@@ -44,7 +44,7 @@ tpwcas_los_fnc_init =
 				[ _msg, 10 ] call bdetect_fnc_debug;				
 				_logOnce = true;				
 			};			
-			sleep 0.3;
+			sleep 1;
 		}
 		else
 		{
@@ -54,7 +54,7 @@ tpwcas_los_fnc_init =
 				[ _msg, 10 ] call bdetect_fnc_debug;				
 				_logOnce = false;				
 			};
-			sleep 1;
+			sleep 5;
 		};	
 	};
 };
@@ -105,7 +105,7 @@ tpwcas_los_fnc_mainloop =
 {
 	private ["_x","_unitList","_nexttime","_unit","_near","_nearUnits","_dirto","_eyed","_eyepb","_eyepa","_eyedv","_ang","_tint","_lint","_vm","_dist","_esp","_usp","_camo","_formula","_tpwcas_los_cansee","_cover","_anim", "_upos", "_umov", "_dthstr", "_posstr", "_acePosstr", "_isNotPlayer", "_isEnemy", "_isNotCivi", "_isAlive","_revealString", "_revealNear","_turning"];
 	
-	if ( count _this == 1 ) then 
+	if ( _this isEqualTo 1 ) then 
 	{
 		_unitList = _this select 0; //MP usage
 	}
@@ -114,7 +114,7 @@ tpwcas_los_fnc_mainloop =
 		_unitList = allUnits; // SP usage
 	};
 	
-	{ // start foreach
+	{ // start count
 		_unit = _x; 
 		_nexttime = _unit getvariable ["tpwcas_los_nexttime", -1]; 
 
