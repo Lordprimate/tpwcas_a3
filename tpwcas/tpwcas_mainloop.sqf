@@ -107,8 +107,7 @@ tpwcas_fnc_main_loop =
 								
 								//_unit setVariable ["tpwcas_stance", "auto"];
 							};
-		
-							//if ( _cover > 0 ) then
+
 							if ( (tpwcas_getcover == 1) && { ((_unit getVariable ["tpwcas_cover", 0]) > 0 ) } ) then 
 							{
 								_unit setVariable ["tpwcas_cover", 0];
