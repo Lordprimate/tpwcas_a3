@@ -387,7 +387,7 @@ bdetect_fnc_find_other_ammo =
     {
 		_nr = _nr + 1;
         if (_projectile isKindOf _x) exitWith {_result = [true, _x, _nr]};
-	} count ["GrenadeHand", "GrenadeBase", "RocketBase", "MissileBase"];
+	} count ["GrenadeHand", "GrenadeBase", "RocketBase", "MissileBase", "ShellBase"];
     //} forEach ["GrenadeHandTimedWest", "GrenadeBase", "RocketBase", "ShellBase", "MissileBase", "BombCore"];
     _result
 };

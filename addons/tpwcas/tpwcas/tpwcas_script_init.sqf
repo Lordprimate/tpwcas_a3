@@ -16,7 +16,7 @@ if !(isNil "tpwcas_mode") then // tpwcas_mode set by logic module or by global p
 	diag_log format ["%1 pre-init defined twpcas mode: 'tpwcas_mode = %2'", time, tpwcas_mode];
 };
 
-if ( (isNil "tpwcas_mode") && (count _this) == 1 ) then 
+if ( (isNil "tpwcas_mode") && (_this isEqualTo == 1 ) then 
 {
 	tpwcas_mode = _this select 0;
 };

@@ -141,7 +141,7 @@ tpwcas_fnc_main_loop =
 									{
 										_unitPos = eyePos _unit;
 										_inBuilding = ((lineIntersectsWith [_unitPos, [(_unitPos select 0), (_unitPos select 1), (_unitPos select 2 ) + 5]] ) select 0);
-										if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "Building"} ) then 
+										if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "HouseBase"} ) then 
 										{
 											_unit setVariable ["tpwcas_inbuilding", true];
 										};
@@ -161,8 +161,7 @@ tpwcas_fnc_main_loop =
 								{ 
 									//CROUCH IF NOT PRONE
 									if !( stance _unit == "PRONE" ) then
-									{ 
-										//_cover = _unit getVariable ["tpwcas_cover", 0];
+									{
 										_coverregain = _unit getVariable ["tpwcas_coverregain", time];
 										_isBuilding = false;
 										
@@ -170,7 +169,7 @@ tpwcas_fnc_main_loop =
 										{
 											_unitPos = eyePos _unit;
 											_inBuilding = ((lineIntersectsWith [_unitPos, [(_unitPos select 0), (_unitPos select 1), (_unitPos select 2 ) + 5]] ) select 0);
-											if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "Building"} ) then 
+											if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "HouseBase"} ) then 
 											{
 												_unit setVariable ["tpwcas_inbuilding", true];
 												_isBuilding = true;
@@ -205,11 +204,10 @@ tpwcas_fnc_main_loop =
 										_unit setVariable ["tpwcas_stance", "Middle"];
 									};										
 										
-									if ( ( (behaviour _unit) in ["SAFE", "AWARE"] ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 
+									if ( ( (behaviour _unit) == "SAFE" ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 
 									{ 
 										// after bullet detection behaviour should at least be aware
-										//_unit setVariable ["tpwcas_orgbehaviour", "AWARE"];
-										_unit setBehaviour "COMBAT";
+										_unit setBehaviour "AWARE";
 									};
 									
 									//SKILL MODIFICATION 
@@ -234,7 +232,7 @@ tpwcas_fnc_main_loop =
 										{
 											_unitPos = eyePos _unit;
 											_inBuilding = ((lineIntersectsWith [_unitPos, [(_unitPos select 0), (_unitPos select 1), (_unitPos select 2 ) + 5]] ) select 0);
-											if ( !( isNil "_inBuilding" ) && { _inBuilding isKindOf "Building" } ) then 
+											if ( !( isNil "_inBuilding" ) && { _inBuilding isKindOf "HouseBase" } ) then 
 											{
 												_unit setVariable ["tpwcas_inbuilding", true];
 												_isBuilding = true;
@@ -274,18 +272,13 @@ tpwcas_fnc_main_loop =
 									{		
 										// check if current location of unit already provides cover from shooter
 										_shooter = _unit getVariable "tpwcas_shooter";
-										_lineIntersect = lineIntersects [eyePos _shooter, eyePos _unit, _shooter];
+										_lineIntersect = lineIntersects [eyePos _shooter, boundingCenter _unit, _shooter];
 										// trigger evasive movement
 										if (!(_lineIntersect) && ((random 1) > 0.25)) then 
 										{
 										[_unit] call tpwcas_fnc_evasive_move;
 										};
 									};
-									
-									//if ( ( (behaviour _unit) in ["SAFE", "AWARE", "COMBAT"] ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 
-									//{ 
-									//	_unit setBehaviour "STEALTH";
-									//};
 
 									//SKILL MODIFICATION 
 									if (tpwcas_skillsup == 1) then 
@@ -310,7 +303,7 @@ tpwcas_fnc_main_loop =
 									//PLAYER CAMERA SHAKE  
 									if (tpwcas_playershake == 1) then    
 									{    
-										addCamShake [0.5, 2 + (random 2), 2]; 
+										addCamShake [0.75, 2 + (random 2), 2]; 
 									};							
 								};
 							
@@ -319,7 +312,7 @@ tpwcas_fnc_main_loop =
 									//PLAYER CAMERA SHAKE AND FX 
 									if (tpwcas_playershake == 1) then  
 									{ 
-										addCamShake [0.75 , 3 + (random 3), 3];
+										addCamShake [1 , 3 + (random 3), 3];
 									}; 
 									
 									//PLAYER VISUAL FX

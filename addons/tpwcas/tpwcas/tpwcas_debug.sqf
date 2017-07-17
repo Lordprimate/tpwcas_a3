@@ -13,7 +13,7 @@ tpwcas_fnc_debug =
 	
 	while { true } do
 	{
-		{ // forEach start
+		{ // count start
 			if ( local _x ) then //Only process debug info for local AI
 			{				
 				if( isNil { _x getVariable "tpwcas_debug_ball" } ) then
@@ -179,7 +179,7 @@ tpwcas_fnc_debug =
 		} count allUnits;
 		
 		// Remove debug balls for dead ai
-		{ // forEach start
+		{ // count start
 			
 			//Only process debug info for local AI
 			if (local _x) then 
