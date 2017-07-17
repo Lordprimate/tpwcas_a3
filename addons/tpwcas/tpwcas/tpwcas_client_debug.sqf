@@ -10,7 +10,7 @@ tpwcas_fnc_debug_smoke =
 
 	//diag_log format ["tpwcas_fnc_debug_smoke: %1 - %2 - [%3]", _this select 0, _this select 1, count _this];
 	
-	if !(count _this == 2 ) exitWith { diag_log format ["tpwcas_fnc_debug_smoke: not enough parameters: %1", _this] };
+	if !(_this isEqualTo 2 ) exitWith { diag_log format ["tpwcas_fnc_debug_smoke: not enough parameters: %1", _this] };
 	
 	_color 			= _this select 0;
 	_coverPosition 	= _this select 1;

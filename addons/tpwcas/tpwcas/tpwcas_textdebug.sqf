@@ -31,10 +31,10 @@ tpwcas_fnc_textdebug =
 				{
 				case (lifestate _unit != "ALIVE"): {_disp = ""};
 				case (fleeing _unit): {_tcolour ="#000000"};
-				case (_sup == 0): {_tcolour ="#77ffffff"}; 
-				case (_sup == 1): {_tcolour ="#7700ff00"};
-				case (_sup == 2): {_tcolour ="#77ffff00"};
-				case (_sup == 3): {_tcolour ="#77ff0000"};
+				case (_sup isEqualTo 0): {_tcolour ="#77ffffff"}; 
+				case (_sup isEqualTo 1): {_tcolour ="#7700ff00"};
+				case (_sup isEqualTo 2): {_tcolour ="#77ffff00"};
+				case (_sup isEqualTo 3): {_tcolour ="#77ff0000"};
 				};
 			_control ctrlsetposition [(_pos2d select 0) -0.5,(_pos2d select 1)];
 			_text = format ["<t color ='%3' shadow ='0' size='%2'>%1</t>",_disp,_tsize,_tcolour];

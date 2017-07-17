@@ -38,16 +38,16 @@ tpwcas_fnc_debug =
 					_level = _x  getVariable ["tpwcas_supstate", 0];
 					_ball_level = _x getVariable ["tpwcas_ball_state", 0];
 					
-					if !( _level == _ball_level ) then 
+					if !( _level isEqualTo _ball_level ) then 
 					{
 						switch ( true ) do
 						{
 							case ( fleeing _x ): 
 							{  
-								if ( ( tpwcas_mode == 1 ) || ( tpwcas_mode == 2 ) ) then // sp or client-server setup
+								if ( ( tpwcas_mode isEqualTo 1 ) || ( tpwcas_mode isEqualTo 2 ) ) then // sp or client-server setup
 								{
 									[_x, _cas_ball, 1] spawn tpwcas_fnc_client_debug;  // black
-									if ( tpwcas_mode == 2 ) then 
+									if ( tpwcas_mode isEqualTo 2 ) then 
 									{ 
 										[[_x, _cas_ball, 1],"tpwcas_fnc_client_debug",true,false] spawn BIS_fnc_MP;
 									};
@@ -63,12 +63,12 @@ tpwcas_fnc_debug =
 								_cas_ball setPosATL [(random 15),(random 15),1];
 							};
 							
-							case ( _level == 1 ): 
+							case ( _level isEqualTo 1 ): 
 							{  
-								if ( ( tpwcas_mode == 1 ) || ( tpwcas_mode == 2 ) ) then // sp or client-server setup
+								if ( ( tpwcas_mode isEqualTo 1 ) || ( tpwcas_mode isEqualTo 2 ) ) then // sp or client-server setup
 								{
 									[_x, _cas_ball, 2] spawn tpwcas_fnc_client_debug;  // green
-									if ( tpwcas_mode == 2 ) then 
+									if ( tpwcas_mode isEqualTo 2 ) then 
 									{
 										[[_x, _cas_ball, 2],"tpwcas_fnc_client_debug",true,false] spawn BIS_fnc_MP;
 									};
@@ -77,12 +77,12 @@ tpwcas_fnc_debug =
 								_cas_ball attachTo [_x,[0,0,3]]; 
 							};
 							
-							case ( _level == 2): 
+							case ( _level isEqualTo 2): 
 							{ 
-								if ( ( tpwcas_mode == 1 ) || ( tpwcas_mode == 2 ) ) then // sp or client-server setup
+								if ( ( tpwcas_mode isEqualTo 1 ) || ( tpwcas_mode isEqualTo 2 ) ) then // sp or client-server setup
 								{						
 									[_x, _cas_ball, 3] spawn tpwcas_fnc_client_debug; //yellow
-									if ( tpwcas_mode == 2 ) then 
+									if ( tpwcas_mode isEqualTo 2 ) then 
 									{
 										[[_x, _cas_ball, 3],"tpwcas_fnc_client_debug",true,false] spawn BIS_fnc_MP;
 									};
@@ -91,12 +91,12 @@ tpwcas_fnc_debug =
 								_cas_ball attachTo [_x,[0,0,2]]; 
 							};
 							
-							case ( _level == 3 ): 
+							case ( _level isEqualTo 3 ): 
 							{  
-								if ( ( tpwcas_mode == 1 ) || ( tpwcas_mode == 2 ) ) then // sp or client-server setup
+								if ( ( tpwcas_mode isEqualTo 1 ) || ( tpwcas_mode isEqualTo 2 ) ) then // sp or client-server setup
 								{						
 									[_x, _cas_ball, 4] spawn tpwcas_fnc_client_debug; //red  
-									if ( tpwcas_mode == 2 ) then 
+									if ( tpwcas_mode isEqualTo 2 ) then 
 									{
 										[[_x, _cas_ball, 4],"tpwcas_fnc_client_debug",true,false] spawn BIS_fnc_MP;
 									};
@@ -108,7 +108,7 @@ tpwcas_fnc_debug =
 							
 						_x setVariable ["tpwcas_ball_state", _level];
 						
-						if ( tpwcas_mode == 2 ) then 
+						if ( tpwcas_mode isEqualTo 2 ) then 
 						{
 							_msg = format["'tpwcas_fnc_debug' tpwcas debug ball - unit [%1] - new value: [%2]", _x, _level];
 							[ _msg, 9 ] call bdetect_fnc_debug;
@@ -120,22 +120,22 @@ tpwcas_fnc_debug =
 					_level = _x  getVariable ["tpwcas_los_visstate", 0];
 					_ball_level = _x getVariable ["tpwlos_ball_state", 0];
 				
-					if !( _level == _ball_level ) then 
+					if !( _level isEqualTo _ball_level ) then 
 					{
 						switch ( true ) do
 						{
-							case ( _level == 0 ): 
+							case ( _level isEqualTo 0 ): 
 							{  
 								detach _los_ball;
 								_los_ball setPosATL [(random 15),(random 15),1];
 							};
 							
-							case ( _level == 1 ): 
+							case ( _level isEqualTo 1 ): 
 							{
-								if ( ( tpwcas_mode == 1 ) || ( tpwcas_mode == 2 ) ) then // sp or client-server setup
+								if ( ( tpwcas_mode isEqualTo 1 ) || ( tpwcas_mode isEqualTo 2 ) ) then // sp or client-server setup
 								{						
 									[_x, _los_ball, 5] spawn tpwcas_fnc_client_debug; // blue
-									if ( tpwcas_mode == 2 ) then 
+									if ( tpwcas_mode isEqualTo 2 ) then 
 									{
 										[[_x, _los_ball, 5],"tpwcas_fnc_client_debug",true,false] spawn BIS_fnc_MP;
 									};
@@ -148,7 +148,7 @@ tpwcas_fnc_debug =
 						_x setVariable ["tpwlos_ball_state", _level];
 						_x setvariable ["tpwlos_debugnexttime", diag_ticktime + 3];
 						
-						if ( tpwcas_mode == 2 ) then 
+						if ( tpwcas_mode isEqualTo 2 ) then 
 						{
 							_msg = format["'tpwcas_fnc_debug' tpwlos debug ball - unit [%1] - new value: [%2]", _x, _level];
 							[ _msg, 9 ] call bdetect_fnc_debug;
@@ -156,14 +156,13 @@ tpwcas_fnc_debug =
 					};
 
 					// Unit may be out range in mean time - reset ball state to force check next loop in order to hide or re-attach
-					if ( ( _level == 1 ) && ( diag_ticktime >= ( _x getVariable ["tpwlos_debugnexttime", diag_ticktime + 1]) ) ) then
+					if ( ( _level isEqualTo 1 ) && ( diag_ticktime >= ( _x getVariable ["tpwlos_debugnexttime", diag_ticktime + 1]) ) ) then
 					{
 						_x setVariable ["tpwcas_los_visstate", 0];
 					};
 				};
 				
-				//if !((lifestate _x == "HEALTHY") || (lifestate _x == "INJURED")) then
-				if (lifeState _x == "DEAD") then
+				if (lifeState _x isEqualTo "DEAD") then
 				{
 					// hide tpwcas ball
 					_cas_ball = _x getVariable "tpwcas_debug_ball";	 

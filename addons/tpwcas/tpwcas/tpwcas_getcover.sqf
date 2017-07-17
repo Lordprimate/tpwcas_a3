@@ -7,7 +7,7 @@ GET COVER
 tpwcas_fnc_evasive_move =
 {
 	_unit = _this select 0;
-	if(currentWeapon _unit == "") exitWith {};
+	if(currentWeapon _unit isEqualTo "") exitWith {};
 	
 	_chance = round(random 100);
 	if(_chance > 75) then
@@ -18,7 +18,7 @@ tpwcas_fnc_evasive_move =
 		
 		if (tpwcas_debug > 0) then 
 		{	
-			if (tpwcas_debug == 2) then 
+			if (tpwcas_debug isEqualTo 2) then 
 			{
 				diag_log format ["Executing evasive movement [%1] for unit %2 (%3)", _anim, name _unit, _unit];
 			};
@@ -36,7 +36,7 @@ tpwcas_fnc_evasive_move =
 		{
 			case "PRONE":
 			{
-				if ((currentWeapon _unit) == (handgunWeapon _unit)) then {
+				if ((currentWeapon _unit) isEqualTo (handgunWeapon _unit)) then {
 				_playanim = selectRandom ["AmovPpneMstpSrasWpstDnon_AmovPpneMevaSlowWpstDl","AmovPpneMstpSrasWpstDnon_AmovPpneMevaSlowWpstDr"];
 				_unit playMoveNow _playanim;			
 				} else {
@@ -46,12 +46,12 @@ tpwcas_fnc_evasive_move =
 			};
 			case "CROUCH":
 			{
-				if ((weaponLowered _unit) && ((currentWeapon _unit) == (handgunWeapon _unit))) then {
+				if ((weaponLowered _unit) && ((currentWeapon _unit) isEqualTo (handgunWeapon _unit))) then {
 				_playanim = selectRandom ["AmovPknlMrunSlowWpstDl","AmovPknlMrunSlowWpstDr"];
 				_unit playMoveNow _playanim;
 				};
 				
-				if ((currentWeapon _unit) == (handgunWeapon _unit)) then {
+				if ((currentWeapon _unit) isEqualTo (handgunWeapon _unit)) then {
 				_playanim = selectRandom ["AmovPknlMrunSrasWpstDl","AmovPknlMrunSrasWpstDr"];
 				_unit playMoveNow _playanim;			
 				};
@@ -66,11 +66,11 @@ tpwcas_fnc_evasive_move =
 			};
 			case "STAND":
 			{
-				if ((weaponLowered _unit) && ((currentWeapon _unit) == (handgunWeapon _unit))) then {
+				if ((weaponLowered _unit) && ((currentWeapon _unit) isEqualTo (handgunWeapon _unit))) then {
 				_playanim = selectRandom ["AmovPercMrunSlowWpstDl","AmovPercMrunSlowWpstDr"];
 				_unit playMoveNow _playanim;
 				};
-				if ((currentWeapon _unit) == (handgunWeapon _unit)) then {
+				if ((currentWeapon _unit) isEqualTo (handgunWeapon _unit)) then {
 				_playanim = selectRandom ["AmovPercMevaSrasWpstDl","AmovPercMevaSrasWpstDr","AmovPercMrunSrasWpstDl","AmovPercMrunSrasWpstDr"];
 				_unit playMoveNow _playanim;			
 				};
@@ -99,8 +99,8 @@ tpwcas_fnc_cover_filter =
 if (isBurning _this) exitWith {false}; 
 private _tfilter = false;
 private _type = typeOf _this;
-if (_type == "") then {
-	if (damage _this == 1) then {_tfilter = true};
+if (_type isEqualTo "") then {
+	if (damage _this isEqualTo 1) then {_tfilter = true};
 } else {
 	scopeName "haveType";
 	if (_type find "Wire" > -1) then {_tfilter = true; breakOut "haveType"};
@@ -138,7 +138,7 @@ tpwcas_fnc_find_cover =
 
 		if !(_lineIntersect) then
 		{	
-			if (tpwcas_debug == 2) then 
+			if (tpwcas_debug isEqualTo 2) then 
 			{
 				diag_log format ["Cover objects for unit %1 found: %2", _unit, _objects];
 			};
@@ -160,13 +160,13 @@ tpwcas_fnc_find_cover =
 					_coverPosition = [((_cPos select 0) + (3 * (_vPos select 0))), ((_cPos select 1) + (3 * (_vPos select 1))), (_cPos select 2)];
 					
 					//Any object which is high and wide enough is potential cover position, excluding water
-					if ( (_dx > 2.25) && {(_dz > 1)} && {!(surfaceIsWater _coverPosition)}) then
+					if ( (_dx > 2) && {(_dz > 1)} && {!(surfaceIsWater _coverPosition)}) then
 					{
 						if ( ( _coverPosition distance _unit ) < 0.75 )  exitWith 
 						{
 							if (tpwcas_debug > 0) then 
 							{	
-								if (tpwcas_debug == 2) then 
+								if (tpwcas_debug isEqualTo 2) then 
 								{
 									diag_log format ["abort: [%1] close to cover [%2] now: distance [%3] m", _unit, _x, _coverPosition distance _unit];
 								};
@@ -188,7 +188,7 @@ tpwcas_fnc_find_cover =
 		{
 			if (tpwcas_debug > 0) then 
 				{
-					if (tpwcas_debug == 2) then 
+					if (tpwcas_debug isEqualTo 2) then 
 					{
 						diag_log format ["abort: [%1] in cover from shooter [%2] : shooter [%2 cannot see me]", _unit, _shooter];
 					};
@@ -229,7 +229,7 @@ tpwcas_fnc_find_cover =
 				_coverPosition = (_cover select 0) select 1;
 				_dx = (_cover select 0) select 2;
 				_dz = (_cover select 0) select 3;
-				if (tpwcas_debug == 2) then 
+				if (tpwcas_debug isEqualTo 2) then 
 				{
 					diag_log format ["[%1] cover: [%2] - distance [%3] - box: [%4] - (size: x:%5 - z:%6)]", _unit, _coverTarget, _coverPosition distance _unit, boundingBoxReal _coverTarget, _dx, _dz]; 
 				};
@@ -248,7 +248,7 @@ tpwcas_fnc_find_cover =
 			_coverPosition = (_cover select 0) select 1;
 			_dx = (_cover select 0) select 2;
 			_dz = (_cover select 0) select 3;
-			if (tpwcas_debug == 2) then 
+			if (tpwcas_debug isEqualTo 2) then 
 			{
 				diag_log format ["[%1] cover: [%2] - distance [%3] - box: [%4] - (size: x:%5 - z:%6)]", _unit, _coverTarget, _coverPosition distance _unit, boundingBoxReal _coverTarget, _dx, _dz]; 
 			};
@@ -308,7 +308,7 @@ tpwcas_fnc_move_to_cover =
 			_debug_flag enableSimulation false;
 			_debug_flag setPosATL _coverPosition;
 
-			if (tpwcas_debug == 2) then 
+			if (tpwcas_debug isEqualTo 2) then 
 			{
 				diag_log format ["Unit [%1] moving to cover [%2]: distance [%3] m", _unit, _cover, _coverDist];
 			};
@@ -335,7 +335,7 @@ tpwcas_fnc_move_to_cover =
 				
 				if (tpwcas_debug > 0) then 
 				{
-					if (tpwcas_debug == 2) then
+					if (tpwcas_debug isEqualTo 2) then
 					{
 						diag_log format ["Unit [%1] moving wrong way to cover [%2]: [%3] m - drop here - tooFar: [%4] - tooLong: [%5] - ([%6] seconds)", _unit, _cover, _dist, _tooFar, _tooLong, _elapsedTime];
 					};
@@ -364,7 +364,7 @@ tpwcas_fnc_move_to_cover =
 	{
 		if (tpwcas_debug > 0) then 
 		{
-			if (tpwcas_debug == 2) then
+			if (tpwcas_debug isEqualTo 2) then
 			{
 				diag_log format["[%1] reached cover [%2]",_unit, _cover];
 			};
@@ -397,7 +397,7 @@ tpwcas_fnc_move_to_cover =
 	}
 	else
 	{
-		if (tpwcas_debug == 2) then {
+		if (tpwcas_debug isEqualTo 2) then {
 			diag_log format["[%1] DID NOT reach selected cover [%2]",_unit, _cover];
 		};
 	};

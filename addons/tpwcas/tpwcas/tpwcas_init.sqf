@@ -177,7 +177,7 @@ tpwcas_running = true;
 	sleep tpwcas_sleep;    
 
 	//START HINT       
-	if ( !(isDedicated) && (tpwcas_hint == 1) ) then
+	if ( !(isDedicated) && (tpwcas_hint isEqualTo 1) ) then
 	{    
 		0 = [_version] spawn 
 		{   
@@ -232,12 +232,12 @@ tpwcas_running = true;
 	bdetect_bullet_min_distance = tpwcas_ir;
 	bdetect_bullet_max_distance = tpwcas_maxdist;
 	bdetect_bullet_max_lifespan = tpwcas_bulletlife;
-	if ( tpwcas_hint == 0 ) then { 
+	if ( tpwcas_hint isEqualTo 0 ) then { 
 		bdetect_startup_hint = false;
 	};
 	bdetect_debug_levels = [0,3,6,7,8,9,10,11];
 
-	if !(tpwcas_debug == 2) then {
+	if !(tpwcas_debug isEqualTo 2) then {
 		bdetect_debug_enable = false;
 	} else {
 		bdetect_debug_enable = true;
@@ -251,7 +251,7 @@ tpwcas_running = true;
 		bdetect_mp_per_frame_emulation = true;
 		bdetect_mp_per_frame_emulation_frame_d = 0.015;
 
-		if ( ( tpwcas_mode == 3 ) || ( tpwcas_mode == 4 ) ) then 
+		if ( ( tpwcas_mode isEqualTo 3 ) || ( tpwcas_mode isEqualTo 4 ) ) then 
 		{
 			tpwcas_playershake = 0;
 			tpwcas_playervis = 0;
@@ -350,13 +350,13 @@ tpwcas_running = true;
 	waitUntil { !(isNil "bdetect_init_done") };
 
 	// Trigger debug color changes on client
-//	if ( (tpwcas_mode == 2) && (tpwcas_debug >= 1) && (hasInterface) ) then 
+//	if ( (tpwcas_mode isEqualTo 2) && (tpwcas_debug >= 1) && (hasInterface) ) then 
 //	{
 //		suppressDebug_compiled = call compileFinal format["%1", tpwcas_fnc_client_debug];
 //	};
 	
 	// START EMBEDDED TPW LOS
-	if ( (tpwcas_los_enable == 1) && (isServer) ) then 
+	if ( (tpwcas_los_enable isEqualTo 1) && (isServer) ) then 
 	{
 		call compileFinal preprocessFileLineNumbers "tpwcas\tpwcas_los.sqf"; //tpw los main loop
 		
@@ -385,14 +385,14 @@ tpwcas_running = true;
 	diag_log format ["%1 - %2 Mainloop started", time, _version];
 
 	// Enable visual markers and debug logging
-	if ( (tpwcas_debug > 0) && ( isServer || {(tpwcas_mode == 2 )} || {tpwcas_isHC} ) ) then 
+	if ( (tpwcas_debug > 0) && ( isServer || {(tpwcas_mode isEqualTo 2 )} || {tpwcas_isHC} ) ) then 
 	{
 		[] spawn tpwcas_fnc_debug; 
 		diag_log format ["%1 - %2 Debug started", time, _version];
 	};
 	
 	//START HINT       
-	if ( !(isDedicated) && (tpwcas_hint == 1) ) then 
+	if ( !(isDedicated) && (tpwcas_hint isEqualTo 1) ) then 
 	{    
 		0 = [_version] spawn 
 		{   

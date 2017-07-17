@@ -34,7 +34,7 @@ tpwcas_fnc_run_for_it =
 	
 	while { (surfaceIsWater _coverPosition) } do
 	{
-		if (tpwcas_debug == 2) then 
+		if (tpwcas_debug isEqualTo 2) then 
 		{
 			diag_log format ["Civilian Unit [%1] coverPosition is water - looking for new position", _unit];
 		};
@@ -67,7 +67,7 @@ tpwcas_fnc_run_for_it =
 	
 	while { _continue } do 
 	{
-		if ( _logOnce && (tpwcas_debug == 2) ) then 
+		if ( _logOnce && (tpwcas_debug isEqualTo 2) ) then 
 		{
 			diag_log format ["Civilian Unit [%1] fleeing to location [%2] - [%3] m", _unit, _coverPosition, _coverDist];
 			_logOnce = false;
@@ -93,7 +93,7 @@ tpwcas_fnc_run_for_it =
 				
 				if (tpwcas_debug > 0) then 
 				{
-					if (tpwcas_debug == 2) then 
+					if (tpwcas_debug isEqualTo 2) then 
 					{
 						diag_log format ["Civilian Unit [%1] moving wrong way to cover [%2]: [%3] m - drop here - tooFar: [%4] - tooLong: [%5] - ([%6] seconds)", _unit, _cover, _dist, _tooFar, _tooLong, _elapsedTime];
 					};
@@ -116,7 +116,7 @@ tpwcas_fnc_run_for_it =
 		{	
 			if (tpwcas_debug > 0) then 
 			{
-				if (tpwcas_debug == 2) then 
+				if (tpwcas_debug isEqualTo 2) then 
 				{
 					diag_log format ["Civilian Unit [%1] reached cover [%2]: [%3] m - [%6] seconds", _unit, _cover, _dist, _tooFar, _tooLong, _elapsedTime];
 				};
@@ -151,7 +151,7 @@ tpwcas_fnc_run_for_it =
 	
 	if (tpwcas_debug > 0) then 
 	{
-		if (tpwcas_debug == 2) then 
+		if (tpwcas_debug isEqualTo 2) then 
 		{
 			diag_log format ["Civilian Unit [%1] reached cover [%2]: [%3] m - [%6] seconds", _unit, _cover, _dist, _tooFar, _tooLong, _elapsedTime];
 		};
