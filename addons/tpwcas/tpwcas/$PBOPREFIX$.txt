@@ -1,0 +1,5 @@
+///////<HEADER>///////
+prefix=tpwcas
+Pbo Type is: Arma Addon
+Sha: '8E3326C387EDF823CBD61EAA59DD2BCBD23C7CA9'
+//////</HEADER>//////
