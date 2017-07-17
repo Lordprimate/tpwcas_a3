@@ -23,7 +23,7 @@ tpwcas_fnc_main_loop =
 			// If the tpwcas_ignoreUnit variable set on the unit is true, then the unit will be skipped/ignored.						
 			if !( _unit getVariable ["tpwcas_ignoreUnit", false] ) then 
 			{			
-				if ( tpwcas_mode == 3 ) then // multiplayer (dedicated) server no client setup
+				if ( tpwcas_mode isEqualTo 3 ) then // multiplayer (dedicated) server no client setup
 				{
 					_unitCheck = ( !(isPlayer _unit) && { (local _unit) } );
 				}
@@ -32,18 +32,18 @@ tpwcas_fnc_main_loop =
 					_unitCheck = (local _unit);
 				};
 			
-				if ( (_unitCheck) && { (isNull objectParent _unit) } && { !(lifeState _unit == "DEAD") } && {!(lifestate _unit == "INCAPACITATED")} && { !(side _unit == civilian) } ) then
+				if ( (_unitCheck) && { (isNull objectParent _unit) } && { !(lifeState _unit isEqualTo "DEAD") } && {!(lifestate _unit isEqualTo "INCAPACITATED")} && { !(side _unit isEqualTo civilian) } ) then
 				{
 					_stanceregain = _unit getVariable ["tpwcas_stanceregain", -1];
 				
-					if (tpwcas_canflee == 0) then 
+					if (tpwcas_canflee isEqualTo 0) then 
 					{
 						_unit allowFleeing 0;
 					};
 				
 					//-------------------------------------------------------------------------------------------------------------
 					//SET INITIAL PARAMETERS FOR EACH UNIT   
-					if (_stanceregain == -1 ) then
+					if (_stanceregain isEqualTo -1 ) then
 					{ 
 						//SET ASR AI SKILLS IF ASR AI IS RUNNNING
 						//if (!isNil "asr_ai3_main_fnc_setUnitSkill") then 
@@ -64,11 +64,11 @@ tpwcas_fnc_main_loop =
 					//RESET UNIT SETTINGS IF UNSUPPRESSED   
 					if ( time >= _stanceregain  ) then        
 					{ 
-						//if ( !( _unit getVariable "tpwcas_stance" == "auto") || !(_unit getVariable ["tpwcas_supstate",0] == 0) ) then 
-						if ( !(_unit getVariable ["tpwcas_supstate",0] == 0) ) then 
+						//if ( !( _unit getVariable "tpwcas_stance" isEqualTo "auto") || !(_unit getVariable ["tpwcas_supstate",0] isEqualTo 0) ) then 
+						if ( !(_unit getVariable ["tpwcas_supstate",0] isEqualTo 0) ) then 
 						{						
 							//Reset behaviour - after bullet detection behaviour should at least be aware							
-							if ( ( _unit getVariable ["tpwcas_supstate", 0] == 3 ) && { !(isPlayer (leader _unit)) } ) then 
+							if ( ( _unit getVariable ["tpwcas_supstate", 0] isEqualTo 3 ) && { !(isPlayer (leader _unit)) } ) then 
 							{
 								_unit setBehaviour "COMBAT";
 							}
@@ -98,7 +98,7 @@ tpwcas_fnc_main_loop =
 								
 								// workaround to bypass AI getting stuck in lowering/raising weapon mode
 								// often occurs when moving from setUnitPos "Middle" to setUnitPos "Auto" again   // Solved???
-							//	if ( _unit getVariable ["tpwcas_stance", "Auto"] == "Middle" ) then 
+							//	if ( _unit getVariable ["tpwcas_stance", "Auto"] isEqualTo "Middle" ) then 
 							//	{
 									//_unit playMoveNow "AmovPercMevaSrasWrflDf_AmovPknlMstpSrasWrflDnon";	
 							//		_unit playMoveNow "";
@@ -107,9 +107,8 @@ tpwcas_fnc_main_loop =
 								
 								//_unit setVariable ["tpwcas_stance", "auto"];
 							};
-		
-							//if ( _cover > 0 ) then
-							if ( (tpwcas_getcover == 1) && { ((_unit getVariable ["tpwcas_cover", 0]) > 0 ) } ) then 
+
+							if ( (tpwcas_getcover isEqualTo 1) && { ((_unit getVariable ["tpwcas_cover", 0]) > 0 ) } ) then 
 							{
 								_unit setVariable ["tpwcas_cover", 0];
 								//avoid run for cover loop effect
@@ -119,14 +118,14 @@ tpwcas_fnc_main_loop =
 						
 						_skillregain = _unit getVariable ["tpwcas_skillregain", -1]; 
 						//RESET UNIT SKILLS IF UNSUPPRESSED  
-						if ( (time >= _skillregain) && { ( tpwcas_skillsup == 1 ) } && { (_unit getVariable ["tpwcas_skillreset", 1] == 1) } ) then 
+						if ( (time >= _skillregain) && { ( tpwcas_skillsup isEqualTo 1 ) } && { (_unit getVariable ["tpwcas_skillreset", 1] isEqualTo 1) } ) then 
 						{						 
 							[_unit] call tpwcas_fnc_incskill;
 						};
 					};   
 
 					//-------------------------------------------------------------------------------------------------------------
-					if ( _unit getVariable ["tpwcas_process", 0] == 1 ) then 
+					if ( _unit getVariable ["tpwcas_process", 0] isEqualTo 1 ) then 
 					{
 						if !(isPlayer _unit) then 
 						{
@@ -137,11 +136,11 @@ tpwcas_fnc_main_loop =
 								case 1: //IF ANY BULLETS NEAR UNIT  
 								{
 									//CROUCH IF STANDING 
-									if ( stance _unit == "STAND" ) then
+									if ( stance _unit isEqualTo "STAND" ) then
 									{
 										_unitPos = eyePos _unit;
 										_inBuilding = ((lineIntersectsWith [_unitPos, [(_unitPos select 0), (_unitPos select 1), (_unitPos select 2 ) + 5]] ) select 0);
-										if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "Building"} ) then 
+										if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "HouseBase"} ) then 
 										{
 											_unit setVariable ["tpwcas_inbuilding", true];
 										};
@@ -149,7 +148,7 @@ tpwcas_fnc_main_loop =
 										_unit setVariable ["tpwcas_stance", "Middle"];	
 									};	
 
-									if ( ( behaviour _unit == "SAFE" ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 									
+									if ( ( behaviour _unit isEqualTo "SAFE" ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 									
 									{ 
 										// after bullet detection behaviour should at least be aware
 										_unit setBehaviour "AWARE";
@@ -160,24 +159,23 @@ tpwcas_fnc_main_loop =
 								case 2: //IF ENEMY BULLETS NEAR UNIT  
 								{ 
 									//CROUCH IF NOT PRONE
-									if !( stance _unit == "PRONE" ) then
-									{ 
-										//_cover = _unit getVariable ["tpwcas_cover", 0];
+									if !( stance _unit isEqualTo "PRONE" ) then
+									{
 										_coverregain = _unit getVariable ["tpwcas_coverregain", time];
 										_isBuilding = false;
 										
-										if ( stance _unit == "STAND" ) then
+										if ( stance _unit isEqualTo "STAND" ) then
 										{
 											_unitPos = eyePos _unit;
 											_inBuilding = ((lineIntersectsWith [_unitPos, [(_unitPos select 0), (_unitPos select 1), (_unitPos select 2 ) + 5]] ) select 0);
-											if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "Building"} ) then 
+											if ( !( isNil "_inBuilding" ) && {_inBuilding isKindOf "HouseBase"} ) then 
 											{
 												_unit setVariable ["tpwcas_inbuilding", true];
 												_isBuilding = true;
 												
 												if (tpwcas_debug > 0) then 
 												{	
-													if (tpwcas_debug == 2) then 
+													if (tpwcas_debug isEqualTo 2) then 
 													{
 														diag_log format ["unit %1 (%2) is in building", name _unit, _unit];
 													};
@@ -191,8 +189,8 @@ tpwcas_fnc_main_loop =
 										
 										if ( 
 												( time >= _coverregain) && 
-												{ ( tpwcas_getcover == 1 ) } && 
-												{ ( (_unit getVariable ["tpwcas_cover", 0]) == 0 ) } && 
+												{ ( tpwcas_getcover isEqualTo 1 ) } && 
+												{ ( (_unit getVariable ["tpwcas_cover", 0]) isEqualTo 0 ) } && 
 												{ ( diag_fps > tpwcas_getcover_minfps ) } &&
 												{ !(isPlayer (leader _unit)) } &&
 												{ !(_isBuilding) }
@@ -205,15 +203,14 @@ tpwcas_fnc_main_loop =
 										_unit setVariable ["tpwcas_stance", "Middle"];
 									};										
 										
-									if ( ( (behaviour _unit) in ["SAFE", "AWARE"] ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 
+									if ( ( (behaviour _unit) isEqualTo "SAFE" ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 
 									{ 
 										// after bullet detection behaviour should at least be aware
-										//_unit setVariable ["tpwcas_orgbehaviour", "AWARE"];
-										_unit setBehaviour "COMBAT";
+										_unit setBehaviour "AWARE";
 									};
 									
 									//SKILL MODIFICATION 
-									if (tpwcas_skillsup == 1) then 
+									if (tpwcas_skillsup isEqualTo 1) then 
 									{ 
 										[_unit] call tpwcas_fnc_decskill;
 									};
@@ -225,23 +222,23 @@ tpwcas_fnc_main_loop =
 								//------------------------------------------------------------------------------------------------------
 								case 3: //IF UNIT IS SUPPRESSED BY MULTIPLE ENEMY BULLETS   
 								{ 
-									if !( stance _unit == "PRONE" ) then
+									if !( stance _unit isEqualTo "PRONE" ) then
 									{ 
 										_coverregain = _unit getVariable ["tpwcas_coverregain", time];
 										_isBuilding = false;
 										
-										if ( stance _unit == "STAND" ) then
+										if ( stance _unit isEqualTo "STAND" ) then
 										{
 											_unitPos = eyePos _unit;
 											_inBuilding = ((lineIntersectsWith [_unitPos, [(_unitPos select 0), (_unitPos select 1), (_unitPos select 2 ) + 5]] ) select 0);
-											if ( !( isNil "_inBuilding" ) && { _inBuilding isKindOf "Building" } ) then 
+											if ( !( isNil "_inBuilding" ) && { _inBuilding isKindOf "HouseBase" } ) then 
 											{
 												_unit setVariable ["tpwcas_inbuilding", true];
 												_isBuilding = true;
 												
 												if (tpwcas_debug > 0) then 
 												{	
-													if (tpwcas_debug == 2) then 
+													if (tpwcas_debug isEqualTo 2) then 
 													{
 														diag_log format ["unit %1 (%2) is in building", name _unit, _unit];
 													};
@@ -255,8 +252,8 @@ tpwcas_fnc_main_loop =
 
 										if ( 
 												( time >= _coverregain) && 
-												{ ( tpwcas_getcover == 1 ) } && 
-												{ ( (_unit getVariable ["tpwcas_cover", 0]) == 0 ) } && 
+												{ ( tpwcas_getcover isEqualTo 1 ) } && 
+												{ ( (_unit getVariable ["tpwcas_cover", 0]) isEqualTo 0 ) } && 
 												{ ( diag_fps > tpwcas_getcover_minfps ) } &&
 												{ !(isPlayer (leader _unit)) } &&
 												{ !(_isBuilding) }
@@ -274,21 +271,16 @@ tpwcas_fnc_main_loop =
 									{		
 										// check if current location of unit already provides cover from shooter
 										_shooter = _unit getVariable "tpwcas_shooter";
-										_lineIntersect = lineIntersects [eyePos _shooter, eyePos _unit, _shooter];
+										_lineIntersect = lineIntersects [eyePos _shooter, boundingCenter _unit, _shooter];
 										// trigger evasive movement
 										if (!(_lineIntersect) && ((random 1) > 0.25)) then 
 										{
 										[_unit] call tpwcas_fnc_evasive_move;
 										};
 									};
-									
-									//if ( ( (behaviour _unit) in ["SAFE", "AWARE", "COMBAT"] ) && { !(isPlayer (leader _unit)) } && { !(player in (units group _unit)) } ) then 
-									//{ 
-									//	_unit setBehaviour "STEALTH";
-									//};
 
 									//SKILL MODIFICATION 
-									if (tpwcas_skillsup == 1) then 
+									if (tpwcas_skillsup isEqualTo 1) then 
 									{
 										[_unit] call tpwcas_fnc_decskill;
 									};
@@ -308,22 +300,22 @@ tpwcas_fnc_main_loop =
 								case 2: //IF ENEMY BULLETS NEAR PLAYER  
 								{
 									//PLAYER CAMERA SHAKE  
-									if (tpwcas_playershake == 1) then    
+									if (tpwcas_playershake isEqualTo 1) then    
 									{    
-										addCamShake [0.5, 2 + (random 2), 2]; 
+										addCamShake [0.75, 2 + (random 2), 2]; 
 									};							
 								};
 							
 								case 3: //IF PLAYER IS SUPPRESSED BY MULTIPLE ENEMY BULLETS   
 								{
 									//PLAYER CAMERA SHAKE AND FX 
-									if (tpwcas_playershake == 1) then  
+									if (tpwcas_playershake isEqualTo 1) then  
 									{ 
-										addCamShake [0.75 , 3 + (random 3), 3];
+										addCamShake [1 , 3 + (random 3), 3];
 									}; 
 									
 									//PLAYER VISUAL FX
-									if (tpwcas_playervis == 1) then  
+									if (tpwcas_playervis isEqualTo 1) then  
 									{     
 										[] spawn tpwcas_fnc_visuals;   
 									}; 
@@ -345,14 +337,14 @@ tpwcas_fnc_main_loop =
 				else
 				{
 					//if civilian
-					if ( (side _x == civilian) && { (isNull objectParent _x) } && { !(lifeState _x == "DEAD") } && {!(lifestate _unit == "INCAPACITATED")} && { !(isPlayer _x) } ) then				
+					if ( (side _x isEqualTo civilian) && { (isNull objectParent _x) } && { !(lifeState _x isEqualTo "DEAD") } && {!(lifestate _unit isEqualTo "INCAPACITATED")} && { !(isPlayer _x) } ) then				
 					{
 						_unit  = _x;  
 
 						_stanceregain = _unit getVariable ["tpwcas_stanceregain", -1];
 							  
 						//SET INITIAL PARAMETERS FOR EACH UNIT   
-						if (_stanceregain == -1 ) then        
+						if (_stanceregain isEqualTo -1 ) then        
 						{ 
 							_unit setVariable ["tpwcas_originalcourage", _unit skill "courage"];      
 							_unit setVariable ["tpwcas_stanceregain", time];      
@@ -372,7 +364,7 @@ tpwcas_fnc_main_loop =
 							
 							_stance = _unit getVariable ["tpwcas_stance", -1];						
 							
-							if ( (_stance in ["Middle","Down"]) && { !(unitPos _unit == "Auto") } ) then 
+							if ( (_stance in ["Middle","Down"]) && { !(unitPos _unit isEqualTo "Auto") } ) then 
 							{
 								_unit setUnitPos "Auto"; 
 								_unit setVariable ["tpwcas_stance", "Auto"];
@@ -381,7 +373,7 @@ tpwcas_fnc_main_loop =
 						
 						//_cover = _unit getVariable ["tpwcas_cover", 0];
 						
-						if ( ((_unit getVariable ["tpwcas_cover", 0]) == 0) && { ((_unit getVariable "tpwcas_supstate") > 0 ) } ) then 
+						if ( ((_unit getVariable ["tpwcas_cover", 0]) isEqualTo 0) && { ((_unit getVariable "tpwcas_supstate") > 0 ) } ) then 
 						{
 							//run for it: civilians will run in random directions due to shooting
 							[_unit] spawn tpwcas_fnc_run_for_it;

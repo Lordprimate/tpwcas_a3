@@ -16,7 +16,7 @@ if !(isNil "tpwcas_mode") then // tpwcas_mode set by logic module or by global p
 	diag_log format ["%1 pre-init defined twpcas mode: 'tpwcas_mode = %2'", time, tpwcas_mode];
 };
 
-if ( (isNil "tpwcas_mode") && (count _this) == 1 ) then 
+if ( (isNil "tpwcas_mode") && ((count _this) isEqualTo 1 ) then 
 {
 	tpwcas_mode = _this select 0;
 };
@@ -47,7 +47,7 @@ if ( !(isServer) && {!(tpwcas_isHC)} && {isMultiPlayer}) then
 		diag_log format ["%1 twpcas client mode set to tpwcas_mode: [%2]", time, tpwcas_mode];
 	};
 
-	if ( tpwcas_mode == 2 ) then // set by global pub var
+	if ( tpwcas_mode isEqualTo 2 ) then // set by global pub var
 	{
 		diag_log format ["%1 enabled tpwcas client mode: tpwcas_mode = %2", time, tpwcas_mode];
 	}
@@ -68,20 +68,20 @@ if ( ( ( isServer || tpwcas_isHC ) ) && ( isMultiPlayer )) then
 		tpwcas_mode = 3;	
 	};
 	
-	if ( !((tpwcas_mode == 2) || (tpwcas_mode == 3) || (tpwcas_mode == 0) || (tpwcas_mode == 5)) ) then 
+	if ( !((tpwcas_mode isEqualTo 2) || (tpwcas_mode isEqualTo 3) || (tpwcas_mode isEqualTo 0) || (tpwcas_mode isEqualTo 5)) ) then 
 	{
 		diag_log format ["%1 forcing tpwcas to value [3]: determined tpwcas_mode value: [%2]", time, tpwcas_mode];
 		tpwcas_mode = 3; 
 	}; 
 	
-	if ( tpwcas_mode == 5 ) then // => DEPRECATED
+	if ( tpwcas_mode isEqualTo 5 ) then // => DEPRECATED
 	{
 		tpwcas_mode = 0;
 		diag_log format ["%1 disabled tpwcas by userconfig file: tpwcas_mode = %2", time, tpwcas_mode];
 	};
 };
 
-if ( !(tpwcas_mode == 0) ) then  
+if ( !(tpwcas_mode isEqualTo 0) ) then  
 {
 	nul = [] execvm "tpwcas\tpwcas_init.sqf";
 };

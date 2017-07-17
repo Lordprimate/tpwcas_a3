@@ -14,7 +14,7 @@ tpwcas_fnc_supstate =
 	_shooter = _this select 1; // shooter of suppressing bullet	
 	_type = _this select 6; // 0 is bullet; 1 is projectile
 	
-	if ( _type == 0 ) then 
+	if ( _type isEqualTo 0 ) then 
 	{
 		_shooterside = side _shooter; //side of shooter 
 		_bulletcount = _unit getVariable ["tpwcas_bulletcount", 0]; //total bullet count 

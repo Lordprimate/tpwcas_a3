@@ -29,7 +29,7 @@ tpwcas_los_fnc_init =
 	{
 		if ( diag_fps > tpwcas_los_minfps ) then 
 		{
-			if ( tpwcas_mode == 3 ) then // dedicated server no clients - check only player detection
+			if ( tpwcas_mode isEqualTo 3 ) then // dedicated server no clients - check only player detection
 			{
 				_nul = [playableUnits] call tpwcas_los_fnc_mainloop;
 			}
@@ -44,7 +44,7 @@ tpwcas_los_fnc_init =
 				[ _msg, 10 ] call bdetect_fnc_debug;				
 				_logOnce = true;				
 			};			
-			sleep 0.3;
+			sleep 1;
 		}
 		else
 		{
@@ -54,7 +54,7 @@ tpwcas_los_fnc_init =
 				[ _msg, 10 ] call bdetect_fnc_debug;				
 				_logOnce = false;				
 			};
-			sleep 1;
+			sleep 5;
 		};	
 	};
 };
@@ -105,7 +105,7 @@ tpwcas_los_fnc_mainloop =
 {
 	private ["_x","_unitList","_nexttime","_unit","_near","_nearUnits","_dirto","_eyed","_eyepb","_eyepa","_eyedv","_ang","_tint","_lint","_vm","_dist","_esp","_usp","_camo","_formula","_tpwcas_los_cansee","_cover","_anim", "_upos", "_umov", "_dthstr", "_posstr", "_acePosstr", "_isNotPlayer", "_isEnemy", "_isNotCivi", "_isAlive","_revealString", "_revealNear","_turning"];
 	
-	if ( count _this == 1 ) then 
+	if ( _this isEqualTo 1 ) then 
 	{
 		_unitList = _this select 0; //MP usage
 	}
@@ -114,12 +114,12 @@ tpwcas_los_fnc_mainloop =
 		_unitList = allUnits; // SP usage
 	};
 	
-	{ // start foreach
+	{ // start count
 		_unit = _x; 
 		_nexttime = _unit getvariable ["tpwcas_los_nexttime", -1]; 
 
 		//SET UP INITIAL UNIT PARAMETERS
-		if (_nexttime == -1) then 
+		if (_nexttime isEqualTo -1) then 
 		{
 			_unit setvariable ["tpwcas_los_nexttime", diag_ticktime + random 1];
 			_msg = format["'tpwcas_los_fnc_mainloop' - set start value for unit [%1]", _unit];
@@ -127,7 +127,7 @@ tpwcas_los_fnc_mainloop =
 		};
 
 		//IF ENOUGH TIME HAS PASSED SINCE LAST LOS CHECK	
-		if ( (diag_ticktime >= _nexttime) && {((lifestate _unit == "HEALTHY") || (lifestate _unit == "INJURED"))} && {!(side _unit == civilian)} && {!(lifestate _unit == "INCAPACITATED")} ) then  
+		if ( (diag_ticktime >= _nexttime) && {((lifestate _unit isEqualTo "HEALTHY") || (lifestate _unit isEqualTo "INJURED"))} && {!(side _unit isEqualTo civilian)} && {!(lifestate _unit isEqualTo "INCAPACITATED")} ) then  
 		{	 
 			_unit setvariable ["tpwcas_los_nexttime", diag_ticktime + random 1]; 
 
@@ -140,7 +140,7 @@ tpwcas_los_fnc_mainloop =
 				_tpwcas_los_cansee = -1; 
 
 				//Check if unit has Line of Sight to unknown enemy
-				if ( !(isPlayer _near) && {(((side _unit) getFriend (side _near)) < 0.6)} && {!(side _near == civilian)} && {((lifestate _near == "HEALTHY") || (lifestate _near == "INJURED"))} && {!(lifestate _near == "INCAPACITATED")} && {((_near knowsAbout _unit) < tpwcas_los_knowsabout)} ) then
+				if ( !(isPlayer _near) && {(((side _unit) getFriend (side _near)) < 0.6)} && {!(side _near isEqualTo civilian)} && {((lifestate _near isEqualTo "HEALTHY") || (lifestate _near isEqualTo "INJURED"))} && {!(lifestate _near isEqualTo "INCAPACITATED")} && {((_near knowsAbout _unit) < tpwcas_los_knowsabout)} ) then
 				{
 					_eyedv = eyedirection _near;  
 					_eyed = ((_eyedv select 0) atan2 (_eyedv select 1));   
@@ -166,7 +166,7 @@ tpwcas_los_fnc_mainloop =
 						{
 							//OTHER FACTORS AFFECTING VISIBILITY OF ENEMY
 							_vm = (currentvisionmode _near);
-							if (_vm == 1) then 
+							if (_vm isEqualTo 1) then 
 								{
 								_vm = -1
 								} 
@@ -229,7 +229,7 @@ tpwcas_los_fnc_mainloop =
 						// ONLY RAPID TURN AND FIRE IF NOT ALREADY TURNING, AND IF MORE THAN 15 DEGREES FROM ENEMY
 						_unit lookat _near;
 						_turning = _unit getvariable ["tpw_los_turning", 0];
-						if ((_turning == 0) && ((abs _delta) > 15)) then 
+						if ((_turning isEqualTo 0) && ((abs _delta) > 15)) then 
 							{
 							[_unit,_near,(floor _delta)] spawn tpw_los_fnc_turn;
 							};
